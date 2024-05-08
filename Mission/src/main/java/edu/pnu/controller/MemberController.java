@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +19,9 @@ public class MemberController {
 	List<MemberVO> memberList = new ArrayList<MemberVO>();
 	public MemberController() {
 		for(int i=1;i<=10;i++) {
-			MemberVO member = new MemberVO();
-			member.setId(i);
-			member.setName("Member"+i);
-			member.setPass("1234");
-			member.setRegidate(new Date());
-			memberList.add(member);
+			memberList.add(MemberVO.builder().id(i).name("Member"+i)
+					.pass("1234").regidate(new Date()).build());
+
 		}
 	}
 	
@@ -31,6 +29,11 @@ public class MemberController {
 	public List<MemberVO> getMemberList() {
 		return memberList;
 	}
+	
+//	@GetMapping("/members")
+//	public ResponseEntity<?> getAllMember(){
+//		return ResponseEntity.ok(memberList);
+//	}
 	
 	@GetMapping("/member")
 	public MemberVO getMember(Integer id) {
