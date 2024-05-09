@@ -15,13 +15,10 @@ import edu.pnu.domain.MemberVO;
 
 public class MemberDao {
 	Connection con;
-	Statement st;
-	ResultSet rs;
-	PreparedStatement psmt;
+
 	public MemberDao() {
 		try {
 			con = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/.h2/sqlprg", "sa", "1234");
-			st=con.createStatement();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -32,7 +29,8 @@ public class MemberDao {
 
 	public List<MemberVO> getMembers() throws SQLException{
 		List<MemberVO> memberList = new ArrayList<MemberVO>();
-		rs = st.executeQuery("select * from member");
+		 Statement st = con.createStatement();
+		 ResultSet rs = st.executeQuery("select * from member");
 		
 		while(rs.next()) {
 			MemberVO m = new MemberVO();
@@ -42,13 +40,15 @@ public class MemberDao {
 			m.setRegidate(rs.getDate(4));
 			memberList.add(m);
 		}
-		
+		rs.close();
+		st.close();
 		return memberList;
 	}
 	
 	public MemberVO getMemberById(Integer id) throws SQLException {
 		MemberVO m = new MemberVO();
-		rs=st.executeQuery("select * from member where id="+id);
+		Statement st = con.createStatement();
+		ResultSet rs=st.executeQuery("select * from member where id="+id);
 		if(rs.next()) {
 			m.setId(rs.getInt(1));
 			m.setPass(rs.getString(2));
@@ -59,16 +59,17 @@ public class MemberDao {
 	}
 	
 	public MemberVO InsertMember(MemberVO m) throws SQLException {
-		
-		psmt = con.prepareStatement("insert into member (pass,name) values(?,?)");
+		PreparedStatement psmt = con.prepareStatement("insert into member (pass,name) values(?,?)");
 		psmt.setString(1,m.getPass());
 		psmt.setString(2, m.getName());
 		psmt.executeUpdate();
 		m.setRegidate(new Date());
+		psmt.close();
 		return m;
 	}
 	
 	public int UpdateMember(MemberVO m) throws SQLException {
+		Statement st = con.createStatement();
 		if(getMemberById(m.getId())==null) {
 			return 0;
 		}
@@ -82,13 +83,18 @@ public class MemberDao {
 		else
 			return 0;
 		int result = st.executeUpdate(query);
+		st.close();
 		return result;
 	}
 	
 	public int DeleteMember(Integer id) throws SQLException {
+		Statement st = con.createStatement();
 		if(getMemberById(id)==null)
 			return 0;
 		int result = st.executeUpdate("delete from member where id="+id);
+		st.close();
 		return result;
 	}
+	
+
 }
