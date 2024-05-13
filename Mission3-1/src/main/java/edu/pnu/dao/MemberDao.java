@@ -10,13 +10,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import edu.pnu.domain.MemberVO;
 
-
+@Repository
 public class MemberDao {
 	Connection con;
 
 	public MemberDao() {
+		System.out.println("MemberDao 생성");
 		try {
 			con = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/.h2/sqlprg", "sa", "1234");
 		} catch (SQLException e) {

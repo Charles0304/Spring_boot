@@ -3,22 +3,30 @@ package edu.pnu.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.pnu.dao.MemberDao;
 import edu.pnu.domain.MemberVO;
 import edu.pnu.service.MemberService;
 
 @RestController
 public class MemberController {
+	//@Service나 @Repository로 메모리(IoC 컨테이너)에 올라간 객체를 자동으로 연결
+	//생성자로 따로 설정할 필요가 없음 
+	@Autowired
 	private MemberService ms;
 	
 	public MemberController() {
-		ms = new MemberService(new MemberDao());
+		System.out.println("MemberController 생성");
+		
+		//DI 코드1방식
+		//ms = new MemberService(new MemberDao());
+		
+		//DI 코드2방식
 		//ms = new MemberService();
 		//ms.setMemberDao(new MemberDao());
 	}
