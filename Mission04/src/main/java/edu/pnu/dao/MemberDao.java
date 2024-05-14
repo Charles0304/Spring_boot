@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.pnu.domain.MemberVO;
 
@@ -45,35 +47,63 @@ public class MemberDao {
 		return memberList;
 	}
 	
-	public MemberVO getMemberById(Integer id) throws SQLException {
+	public Map<String,Object> getMemberById(Integer id){
 		MemberVO m = new MemberVO();
+		Map<String,Object> log= new HashMap<String,Object>();
+		String sql = "select * from member where id="+id;
+		log.put("sql", sql);
+		boolean flag = true;
+		try {
 		Statement st = con.createStatement();
-		ResultSet rs=st.executeQuery("select * from member where id="+id);
-		if(rs.next()) {
-			m.setId(rs.getInt(1));
-			m.setPass(rs.getString(2));
-			m.setName(rs.getString(3));
-			m.setRegidate(rs.getDate(4));
+		ResultSet rs=st.executeQuery(sql);
+			if(rs.next()) {
+				m.setId(rs.getInt(1));
+				m.setPass(rs.getString(2));
+				m.setName(rs.getString(3));
+				m.setRegidate(rs.getDate(4));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			flag = true;
 		}
-		return  m;
+		log.put("isSuccess",flag);
+		log.put("member",m);
+		log.put("method","getMember");
+		return log;
 	}
 	
-	public MemberVO InsertMember(MemberVO m) throws SQLException {
-		PreparedStatement psmt = con.prepareStatement("insert into member (pass,name) values(?,?)");
-		psmt.setString(1,m.getPass());
-		psmt.setString(2, m.getName());
-		psmt.executeUpdate();
+	public Map<String,Object> InsertMember(MemberVO m){
+		Map<String, Object> map = new HashMap<String,Object>();
+		boolean flag = true;
+		try {
+			PreparedStatement psmt = con.prepareStatement("insert into member (pass,name) values(?,?)");
+			psmt.setString(1,m.getPass());
+			psmt.setString(2, m.getName());
+			psmt.executeUpdate();
+			psmt.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+			flag=false;
+		}
 		m.setRegidate(new Date());
-		psmt.close();
-		return m;
+		map.put("member", m);
+		map.put("method", "insert");
+		map.put("sql",String.format("insert into member (pass,name) values(%s,%s)", m.getPass(),m.getName()));
+		map.put("isSuccess", flag);
+		
+		return map;
 	}
 	
-	public int UpdateMember(MemberVO m) throws SQLException {
-		Statement st = con.createStatement();
+	public Map<String,Object> UpdateMember(MemberVO m){
+		Map<String, Object> map = new HashMap<String,Object>();
+		
+		boolean flag = true;
+		
 		if(getMemberById(m.getId())==null) {
-			return 0;
+			flag=false;
 		}
-		String query;
+		int result = 0;
+		String query = null;
 		if(m.getName()!=null&&m.getPass()!=null)
 			query = String.format("update member set name='%s', pass='%s' where id=%d",m.getName(),m.getPass(),m.getId());
 		else if(m.getName()!=null)
@@ -81,19 +111,42 @@ public class MemberDao {
 		else if(m.getPass()!=null)
 			query = String.format("update member set pass='%s' where id=%d",m.getPass(),m.getId());
 		else
-			return 0;
-		int result = st.executeUpdate(query);
-		st.close();
-		return result;
+			flag=false;
+		try {
+			Statement st = con.createStatement();
+			result = st.executeUpdate(query);
+			st.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+			flag = false;
+		}
+		map.put("isSuccess", flag);
+		map.put("sql", query);
+		map.put("method", "update");
+		map.put("result", result);
+		return map;
 	}
 	
-	public int DeleteMember(Integer id) throws SQLException {
-		Statement st = con.createStatement();
+	public Map<String,Object> DeleteMember(Integer id){
+		Map<String, Object> map = new HashMap<String,Object>();
+		boolean flag = true;
+		int result=0;
+		String query="delete from member where id="+id;
 		if(getMemberById(id)==null)
-			return 0;
-		int result = st.executeUpdate("delete from member where id="+id);
-		st.close();
-		return result;
+			flag = false;
+		try {
+			Statement st = con.createStatement();
+			result = st.executeUpdate(query);
+			st.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+			flag=false;
+		}
+		map.put("isSuccess", flag);
+		map.put("sql", query);
+		map.put("method", "delete");
+		map.put("result", result);
+		return map;
 	}
 	
 

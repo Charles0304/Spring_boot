@@ -19,12 +19,17 @@ public class LogDao {
 		
 	}
 	
-	public LogDTO insertLog(LogDTO l) throws SQLException {
+	public void insertLog(LogDTO l){
+		try {
 		PreparedStatement psmt = con.prepareStatement("insert into dblog(method,sqlstring,success) values(?,?,?)");
 		psmt.setString(1, l.getMethod());
 		psmt.setString(2, l.getSqlstring());
 		psmt.setBoolean(3, l.isSuccess());
 		psmt.executeUpdate();
-		return l;
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+			
+		}
 	}
 }
