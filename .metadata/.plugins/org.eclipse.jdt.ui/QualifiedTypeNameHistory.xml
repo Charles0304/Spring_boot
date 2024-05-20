@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
     <fullyQualifiedTypeName name="edu.pnu.service.MemberService"/>
     <fullyQualifiedTypeName name="java.sql.Connection"/>
     <fullyQualifiedTypeName name="java.sql.Statement"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
-    <fullyQualifiedTypeName name="java.util.Date"/>
     <fullyQualifiedTypeName name="org.springframework.test.context.junit4.SpringRunner"/>
     <fullyQualifiedTypeName name="edu.pnu.domain.BoardVO"/>
     <fullyQualifiedTypeName name="org.junit.Test"/>
@@ -14,4 +12,23 @@
     <fullyQualifiedTypeName name="org.slf4j.LoggerFactory"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Temporal"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.Order"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.ClassOrderer.OrderAnnotation"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.MethodOrderer.OrderAnnotation"/>
+    <fullyQualifiedTypeName name="edu.pnu.domain.Board"/>
+    <fullyQualifiedTypeName name="edu.pnu.persistence.BoardRepository"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.Random"/>
+    <fullyQualifiedTypeName name="java.awt.print.Pageable"/>
+    <fullyQualifiedTypeName name="org.springframework.data.domain.Sort"/>
+    <fullyQualifiedTypeName name="org.springframework.data.domain.Sort.Direction"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="edu.pnu.domain.QBoard"/>
+    <fullyQualifiedTypeName name="com.querydsl.core.BooleanBuilder"/>
+    <fullyQualifiedTypeName name="org.springframework.data.domain.PageRequest"/>
+    <fullyQualifiedTypeName name="org.springframework.data.domain.Pageable"/>
+    <fullyQualifiedTypeName name="org.springframework.data.domain.Page"/>
 </qualifiedTypeNameHistroy>
