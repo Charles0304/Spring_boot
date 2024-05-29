@@ -11,7 +11,7 @@ public class SecurityController {
 		return "index";
 	}
 	
-	@GetMapping("member")
+	@GetMapping("/member")
 	public void member() {
 		System.out.println("Member 요청");
 	}
